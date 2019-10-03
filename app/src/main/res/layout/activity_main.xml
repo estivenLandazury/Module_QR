@@ -23,25 +23,47 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_marginTop="25dp">
+
         <ImageView
             android:id="@+id/qr_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_launcher"
             android:layout_gravity="center"
+            android:background="@mipmap/ic_launcher"
             />
 
-
+</RelativeLayout>
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Ingresa Tu cedula"
-            android:layout_marginTop="-10dp"
-            android:textSize="25sp"
+            android:text=""
+            android:textSize="12sp"
             android:id="@+id/text"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=""
+            android:textSize="12sp"
+            android:id="@+id/text_3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=""
+            android:textSize="12sp"
+            android:id="@+id/text_2"/>
 
 
         <EditText
@@ -53,6 +75,12 @@
             android:inputType="number"
             android:hint="Ingresa tu número de documento" />
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center">
+
 
         <Button
             android:id="@+id/btn_verificar"
@@ -61,6 +89,17 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Consultar"/>
+
+
+        <Button
+            android:id="@+id/btn_mostrarQR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Mostrar QR"/>
+
+</LinearLayout>
 
 
 

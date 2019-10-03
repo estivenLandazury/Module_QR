@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ServiceManager {
 
     public static final String SIMPLEGET_URL = "https://www.icesi.edu.co/";
-    public static String CODIGOSHASH_URL = "http://172.19.15.62:5000/cedula?cc=";
+    public static String CODIGOSHASH_URL = "http://192.168.96.37:5000/cedula?cc=";
 
     public static class SimpleGET{
         OnResponseListener listener;

@@ -1,5 +1,6 @@
 package com.carvajal.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -29,10 +30,11 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText txt_cedula;
-    private Button btn_verifcar;
+    private Button btn_verifcar, btn_mostrarQR;
     private ImageView ima_qr;
     private final static int QRcodeWidth = 500;
     private Bitmap bitmap;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -41,9 +43,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         txt_cedula = findViewById(R.id.txt_cedu);
         btn_verifcar = findViewById(R.id.btn_verificar);
+        btn_mostrarQR = findViewById(R.id.btn_mostrarQR);
         ima_qr = findViewById(R.id.qr_view);
-
         btn_verifcar.setOnClickListener(this);
+        btn_mostrarQR.setOnClickListener(this);
 
     }
 
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bitmap = Bitmap.createBitmap(bitMattrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMattrixWidth, bitMatrixHeight);
 
+
         return bitmap;
     }
 
@@ -118,28 +122,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            e.printStackTrace();
 //        }
 //        ima_qr.setImageBitmap(bitmap);
-
-        new Thread(() -> {
-
-            new ServiceManager.hashGET(ced, response -> {
-
-
-                Gson g = new Gson();
-                Token n = g.fromJson(response, Token.class);
-                try {
-                  bitmap = TextoImageEncode(n.getDni().toString());
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Generando código QR....");
+        progressDialog.show();
 
 
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
 
-                Log.e(">>>>", "hola  " + n.getDni());
-            });
+            new Thread(() -> {
 
-        }).start();
+                new ServiceManager.hashGET(ced, response -> {
 
-        ima_qr.setImageBitmap(bitmap);
+                    Log.e(">>>>", "Aqui va amorir" + response);
+                    Gson g = new Gson();
+                    Token n = g.fromJson(response, Token.class);
+                    try {
+                        if (n.getDni() == null) {
+                            mensaje("El usuario ya ha realizado su voto loco");
+
+                            progressDialog.dismiss();
+
+                        }else {
+
+
+
+                            Log.e(">>>>", "Aqui va amorir" + n.getDni());
+                            bitmap = TextoImageEncode(n.getDni().toString());
+
+                            progressDialog.dismiss();
+                        }
+
+
+                    } catch (WriterException e) {
+                        mensaje("ha ocuurido un problema "+ e.getMessage());
+
+                        e.printStackTrace();
+                    }
+
+//                    Log.e(">>>>", "hola  " + n.getDni());
+                });
+
+            }).start();
+
+
+
     }
 
 
@@ -158,6 +183,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (btn_verifcar.getId() == v.getId()) {
             verificar();
 
+
+        }
+        if (btn_mostrarQR.getId() == v.getId()) {
+
+            ima_qr.setImageBitmap(bitmap);
 
 
         }
