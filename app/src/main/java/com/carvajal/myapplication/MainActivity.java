@@ -136,8 +136,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Gson g = new Gson();
                     Token n = g.fromJson(response, Token.class);
                     try {
+                        Log.e(">>>>>>>>>", "El DNI es "+n.getDni());
                         if (n.getDni() == null) {
-                            mensaje("El usuario ya ha realizado su voto loco");
+                            mensaje("El usuario ya ha realizado su voto");
 
                             progressDialog.dismiss();
 
